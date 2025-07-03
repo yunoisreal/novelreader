@@ -932,8 +932,8 @@ body.dark-theme .chapter-list li:hover {
         justify-content: center;
         flex-direction: column;
         backdrop-filter: blur(10px);
-        background-color: rgb(255, 255, 255);
-        color: black;
+        background-image: url('R.jpeg');
+        color: white;
         margin: 0 auto;
         width: min(800px, 90%);
         height: auto;
@@ -943,12 +943,7 @@ body.dark-theme .chapter-list li:hover {
         
     }
 
-    .profile-section h3 {
-        color: blue;
-        font-size: 25px;
-        color: var(--text-color-light);
-        margin-bottom: 10px;
-    }
+    
 
     .profile-pic {
         width: 180px;
@@ -979,7 +974,7 @@ body.dark-theme .chapter-list li:hover {
     }
 
     .icon {
-        color: var(--text-color-light);
+        color: white;
         font-size: 24px;
         transition: color 0.3s ease;
     }
@@ -1002,7 +997,7 @@ body.dark-theme .chapter-list li:hover {
     }
 
     .contact-info a {
-        color: var(--text-color-light);
+        color:white;
         text-decoration: none;
         font-weight: bold;
     }
