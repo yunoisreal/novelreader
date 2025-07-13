@@ -2,37 +2,130 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleButton = document.getElementById('theme-toggle-button');
     const body = document.body;
 
+    // List your theme names and display names here
+    const themes = [
+        { class: 'root', name: 'Light' },
+        { class: 'theme-silver', name: 'Silver' },
+        { class: 'theme-dark', name: 'Dark' },
+        { class: 'theme-snow', name: 'Snow' },
+        { class: 'theme-dark-blue', name: 'Dark Blue' },
+        { class: 'theme-desert', name: 'Desert' },
+        { class: 'theme-emerald', name: 'Emerald' },
+        
+    ];
+    const defaultTheme = 'theme-light';
+
     // Function to set the theme
-    const setTheme = (theme) => {
-        if (theme === 'dark') {
-            body.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark');
+    window.setTheme = (themeName) => {
+        themes.forEach(t => body.classList.remove(t.class));
+        const found = themes.find(t => t.class === themeName);
+        if (found) {
+            body.classList.add(themeName);
+            localStorage.setItem('theme', themeName);
         } else {
-            body.classList.remove('dark-theme');
-            localStorage.setItem('theme', 'light');
+            body.classList.add(defaultTheme);
+            localStorage.setItem('theme', defaultTheme);
         }
     };
 
-    // Check for saved theme preference on page load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        // If no theme is saved, default to light theme
-        setTheme('light');
-    }
+    // Apply theme on page load
+    const savedTheme = localStorage.getItem('theme') || defaultTheme;
+    setTheme(savedTheme);
 
-    // Toggle theme on button click
-    themeToggleButton.addEventListener('click', () => {
-        if (body.classList.contains('dark-theme')) {
-            setTheme('light');
-        } else {
-            setTheme('dark');
-        }
+    // --- THEME POPUP MENU ---
+    // Create the popup menu
+    const themeMenu = document.createElement('div');
+    themeMenu.id = 'theme-popup-menu';
+    themeMenu.style.position = 'absolute';
+    themeMenu.style.top = '60px';
+    themeMenu.style.right = '30px';
+    themeMenu.style.background = '#fff';
+    themeMenu.style.border = '1px solid #ccc';
+    themeMenu.style.borderRadius = '8px';
+    themeMenu.style.boxShadow = '0 2px 12px rgba(0,0,0,0.12)';
+    themeMenu.style.padding = '8px 0';
+    themeMenu.style.display = 'none';
+    themeMenu.style.zIndex = '1000';
+    themeMenu.style.minWidth = '120px';
+
+    themes.forEach(t => {
+        const btn = document.createElement('button');
+        btn.textContent = t.name;
+        btn.style.display = 'block';
+        btn.style.width = '100%';
+        btn.style.background = 'none';
+        btn.style.border = 'none';
+        btn.style.padding = '10px 18px';
+        btn.style.textAlign = 'left';
+        btn.style.cursor = 'pointer';
+        btn.style.fontSize = '1em';
+        btn.style.transition = 'background 0.2s';
+        btn.onmouseenter = () => btn.style.background = '#f0f0f0';
+        btn.onmouseleave = () => btn.style.background = 'none';
+        btn.onclick = () => {
+            setTheme(t.class);
+            themeMenu.style.display = 'none';
+        };
+        themeMenu.appendChild(btn);
     });
 
-    // You can add more JavaScript for dynamic content loading,
-    // handling clicks on 'SWITCH' buttons, etc., here.
+    document.body.appendChild(themeMenu);
+
+    // Show/hide the popup menu on theme button click
+    if (themeToggleButton) {
+        themeToggleButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeMenu.style.display = themeMenu.style.display === 'block' ? 'none' : 'block';
+            // Position the menu below the button
+            const rect = themeToggleButton.getBoundingClientRect();
+            themeMenu.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+            themeMenu.style.right = (window.innerWidth - rect.right + 8) + 'px';
+        });
+    }
+
+    // Hide the menu when clicking outside
+    document.addEventListener('click', () => {
+        themeMenu.style.display = 'none';
+    });
+
+    // Prevent menu from closing when clicking inside
+    themeMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // --- FONT SIZE ---
+    function applyFontSize(size) {
+        document.documentElement.style.setProperty('--novel-font-size',
+            size === 'small' ? '15px' : size === 'large' ? '21px' : '18px'
+        );
+    }
+    const fontSize = localStorage.getItem('fontSize') || 'medium';
+    applyFontSize(fontSize);
+
+    // Apply font size from localStorage on every page
+    const savedFontSize = localStorage.getItem('fontSizePx') || '18';
+    document.documentElement.style.setProperty('--novel-font-size', savedFontSize + 'px');
+
+    // --- SHOW IMAGES ---
+    const showImages = localStorage.getItem('showImages');
+    if (showImages === 'false') {
+        document.querySelectorAll('img').forEach(img => {
+            img.style.display = 'none';
+        });
+    } else {
+        document.querySelectorAll('img').forEach(img => {
+            img.style.display = '';
+        });
+    }
+
+    // --- NOTIFICATIONS (for reference, you can use these values elsewhere) ---
+    const emailNotifications = localStorage.getItem('emailNotifications');
+    const pushNotifications = localStorage.getItem('pushNotifications');
+
+    // --- LANGUAGE (for reference, you can use this value elsewhere) ---
+    const userLang = localStorage.getItem('novelhub_language') || 'en';
+
+    // --- Existing code for chapters, nav, etc. ---
     // For example, a simple alert for the SWITCH button:
     const switchButton = document.querySelector('.switch-button');
     if (switchButton) {
@@ -53,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-   
     const chapterSelect = document.getElementById('chapter-select');
 
     // --- Dynamic Chapter Loading (Conceptual) ---

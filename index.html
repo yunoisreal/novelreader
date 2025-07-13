@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novel Reader</title>
+    <title>NovelHub</title>
     <link rel="stylesheet" href="novel.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -12,34 +13,42 @@
         <div class="container">
             <div class="navbar-left">
                 <div class="logo">
-                 <h4>SELANYI</h4>
+                <h4 class="logotext">Novelhub </h4>
                 </div>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search function unavailable at the moment">
-                </div>
+                
+                
             </div>
             <div class="navbar-right">
-                
-                <div class="theme-toggle">
+               
+             
+               <div class="theme-toggle">
                     <button id="theme-toggle-button">
-                        <i class="fas fa-sun"></i> <i class="fas fa-moon"></i> </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z"/></svg>  </button>
                 </div>
+
+
+                
                
             </div>
         </div>
     </header>
 
-    <nav class="main-nav">
-        <div class="container">
-            <ul>
-                <li><a href="#" class="active">Novel</a></li>
-                <li><a href="#">New Novel</a></li>
-                <li><a href="#">Comic</a></li>
-                <li><a href="#">Fantasy</a></li>
-                <li><a href="#"><i class="fas fa-globe"></i> EN</a></li>
-            </ul>
-        </div>
+    <nav>
+        <ul class="sidebar">
+			<li class="no-hover" onclick="hideSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+			
+			<li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+			<li><a href="settings.html" class="active"><i class="fas fa-gear"></i>Settings</a></li>
+			<li><a href="help.html" class="active"><i class="fas fa-question"></i>Help</a></li>			
+		</ul>
+		<ul>
+			<li class="menu-button" onclick="showSidebar()"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+			<li class="hideOnMobile"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+			<li class="hideOnMobile"><a href="settings.html" class="active"><i class="fas fa-gear"></i>Settings</a></li>
+			<li class="hideOnMobile"><a href="help.html" class="active"><i class="fas fa-question"></i>Help</a></li>
+            <li><button ><a href="signin.html">Log in</a></button></li>
+						
+		</ul>
     </nav>
 
     <main class="content">
@@ -63,7 +72,7 @@
 
             </section>
             <footer class="section-footer">
-                <p &copy>@2025 Selanyi. All rights reserved
+                <p &copy>@2025 NovelHub. All rights reserved
             </footer>
 
         
@@ -71,5 +80,16 @@
     </main>
 
     <script src="novel.js"></script>
+    <script>
+	function showSidebar(){
+		const sidebar = document.querySelector('.sidebar')
+		sidebar.style.display = 'flex'
+	}
+
+	function hideSidebar(){
+		const sidebar = document.querySelector('.sidebar')
+		sidebar.style.display = 'none'
+	}
+</script>
 </body>
 </html>

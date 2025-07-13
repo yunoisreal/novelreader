@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign In</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 300px; }
+  </style>
+</head>
+<body>
+  <h1>Sign In</h1>
+  <input id="signin-email" type="email" placeholder="Email" />
+  <input id="signin-password" type="password" placeholder="Password" />
+  <button onclick="signIn()">Sign In</button>
+  <a href="signup.html">Don't have an account? Sign Up</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient(
+      'https://mbtvvibfisdntyeokpeb.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idHZ2aWJmaXNkbnR5ZW9rcGViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyOTA0MTIsImV4cCI6MjA2Nzg2NjQxMn0.C8VzQFbXXwfJmCyNaUdOsA-_L_WsgSWZBqk38XJXL2g'
+    );
+
+    async function signIn() {
+      const email = document.getElementById('signin-email').value;
+      const password = document.getElementById('signin-password').value;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      if (error) alert(error.message);
+      else alert('Signed in successfully!');
+    }
+  </script>
+</body>
+</html>

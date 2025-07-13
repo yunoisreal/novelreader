@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings | NovelHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="novel.css">
+    <style>
+        body {
+            background: #f4f7fa;
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .settings-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 32px 24px;
+        }
+        .settings-container h2 {
+            margin-top: 0;
+            color: var(--primary-color-light, #2a4d8f);
+            text-align: center;
+        }
+        .settings-section {
+            margin-bottom: 28px;
+        }
+        .settings-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .settings-section input[type="text"],
+        .settings-section input[type="email"],
+        .settings-section input[type="password"],
+        .settings-section select {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #d0d0d0;
+            border-radius: 7px;
+            margin-bottom: 14px;
+            font-size: 1em;
+        }
+        .settings-section input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .settings-actions {
+            text-align: center;
+            
+            justify-content: center;
+        }
+
+        .settings-actions button {
+            background: var(--primary-color-light, #2a4d8f);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 10px 28px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: background 0.2s;
+        }
+        .settings-actions button:hover {
+            background: #18325c;
+        }
+        #language-radio-group {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        @media (max-width: 600px) {
+            .settings-container {
+                padding: 18px 4vw;
+                max-width: 98vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <h2>Account Settings</h2>
+        <form>
+            <!-- Account Info -->
+            <!-- Profile Picture Upload -->
+            <div class="settings-section">
+                <label for="profile-pic">Profile Picture</label>
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <center><img id="profile-pic-preview" src="https://ui-avatars.com/api/?name=User&background=2a4d8f&color=fff&size=64" alt="Profile Picture" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:1px solid #ccc;"></center>  
+                    <input type="file" id="profile-pic" accept="image/*" style="flex:1; padding:8px; border:1px solid #d0d0d0; border-radius:7px;">
+                </div>
+            </div>
+           <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // PROFILE PICTURE
+                const picInput = document.getElementById('profile-pic');
+                const picPreview = document.getElementById('profile-pic-preview');
+                const savedPic = localStorage.getItem('profilePic');
+                if (savedPic) {
+                    picPreview.src = savedPic;
+                }
+                picInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            picPreview.src = e.target.result;
+                            localStorage.setItem('profilePic', e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+
+                // USERNAME & EMAIL
+                const usernameInput = document.getElementById('username');
+                const emailInput = document.getElementById('email');
+                usernameInput.value = localStorage.getItem('username') || '';
+                emailInput.value = localStorage.getItem('email') || '';
+                usernameInput.addEventListener('input', function() {
+                    localStorage.setItem('username', this.value);
+                });
+                emailInput.addEventListener('input', function() {
+                    localStorage.setItem('email', this.value);
+                });
+
+                // THEME (already handled below, but ensure select is present)
+                const themeSelect = document.getElementById('theme');
+                themeSelect.value = localStorage.getItem('theme') || 'auto';
+                themeSelect.addEventListener('change', function() {
+                    localStorage.setItem('theme', this.value);
+                    if (typeof setTheme === 'function') setTheme(this.value);
+                    else location.reload();
+                });
+
+                // Apply settings site-wide
+                function applySettings() {
+                    // Profile pic
+                    const pic = localStorage.getItem('profilePic');
+                    if (pic) {
+                        document.querySelectorAll('img.profile-avatar').forEach(img => img.src = pic);
+                    }
+                    // Font size
+                    const fontSize = localStorage.getItem('fontSizePx') || 18;
+                    document.documentElement.style.setProperty('--novel-font-size', fontSize + 'px');
+                    // Theme
+                    const theme = localStorage.getItem('theme') || 'auto';
+                    if (typeof setTheme === 'function') setTheme(theme);
+                }
+                applySettings();
+            });
+            </script>
+
+            <!-- Reading Preferences -->
+            <div class="settings-section">
+                
+
+                <label for="font-size-range" style="margin-bottom: 0.5em;">Font Size</label>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size:15px;">A</span>
+                    <input type="range" id="font-size-range" min="15" max="21" step="1" style="flex:1;">
+                    <span style="font-size:21px;">A</span>
+                    <span id="font-size-value" style="min-width:40px; text-align:right;"></span>
+                </div>
+                <!-- Letters arranged horizontally under the slider -->
+                 <div style="display: flex; justify-content: space-between; margin: 18px 0 24px 0; padding: 0 8px;">
+                    <span class="font-size-choice" data-size="15" style="font-size:15px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="16" style="font-size:16px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="17" style="font-size:17px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="18" style="font-size:18px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="19" style="font-size:19px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="20" style="font-size:20px; cursor:pointer;">A</span>
+                    <span class="font-size-choice" data-size="21" style="font-size:21px; cursor:pointer;">A</span>
+                </div>
+
+                <label>
+                    <input type="checkbox" id="show-images" checked>
+                    Show Images
+                </label>
+            </div>
+
+            <!-- Notifications -->
+            <div class="settings-section">
+                <label>
+                    <input type="checkbox" id="email-notifications" checked>
+                    Email Notifications
+                </label>
+                <label>
+                    <input type="checkbox" id="push-notifications">
+                    Push Notifications
+                </label>
+            </div>
+
+            <!-- Language -->
+            <div class="settings-section">
+                <label>Language</label>
+                <div id="language-radio-group" style="display: flex; flex-wrap: wrap; gap: 12px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="en">
+                        <img src="https://flagcdn.com/24x18/gb.png" alt="English" width="24" height="18"> English
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="es">
+                        <img src="https://flagcdn.com/24x18/es.png" alt="Español" width="24" height="18"> Español
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="fr">
+                        <img src="https://flagcdn.com/24x18/fr.png" alt="Français" width="24" height="18"> Français
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="de">
+                        <img src="https://flagcdn.com/24x18/de.png" alt="Deutsch" width="24" height="18"> Deutsch
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="zh">
+                        <img src="https://flagcdn.com/24x18/cn.png" alt="中文" width="24" height="18"> 中文
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="ar">
+                        <img src="https://flagcdn.com/24x18/sa.png" alt="العربية" width="24" height="18"> العربية
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="hi">
+                        <img src="https://flagcdn.com/24x18/in.png" alt="हिन्दी" width="24" height="18"> हिन्दी
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="language" value="pt">
+                        <img src="https://flagcdn.com/24x18/pt.png" alt="Português" width="24" height="18"> Português
+                    </label>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="settings-actions">
+                <button type="submit">Save Changes</button>
+                <button type="button" style="background:#e74c3c;" onclick="if(confirm('Are you sure you want to delete your account?')){alert('Account deleted (demo only).');}">Delete Account</button><br>
+                <button type="button" id="logout-btn" style="background:#f39c12;" onclick="if(confirm('Are you sure you want to log out?')){alert('Logged out (demo only).');}">Log Out</button>
+            </div>
+        </form>
+    </div>
+    <script src="novel.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // THEME
+        const theme = localStorage.getItem('theme') || 'auto';
+        document.getElementById('theme').value = theme;
+        document.getElementById('theme').addEventListener('change', function() {
+            localStorage.setItem('theme', this.value);
+            if (typeof setTheme === 'function') {
+                setTheme(this.value);
+            } else {
+                location.reload();
+            }
+        });
+
+        // FONT SIZE SLIDER
+        const fontSizeRange = document.getElementById('font-size-range');
+        const fontSizeValue = document.getElementById('font-size-value');
+        const savedFontSize = parseInt(localStorage.getItem('fontSizePx')) || 18;
+        fontSizeRange.value = savedFontSize;
+        fontSizeValue.textContent = savedFontSize + "px";
+        document.documentElement.style.setProperty('--novel-font-size', savedFontSize + 'px');
+
+        fontSizeRange.addEventListener('input', function() {
+            fontSizeValue.textContent = this.value + "px";
+            document.documentElement.style.setProperty('--novel-font-size', this.value + 'px');
+            localStorage.setItem('fontSizePx', this.value);
+        });
+
+        // NOTIFICATIONS
+        document.getElementById('email-notifications').checked = localStorage.getItem('emailNotifications') !== 'false';
+        document.getElementById('push-notifications').checked = localStorage.getItem('pushNotifications') === 'true';
+
+        document.getElementById('email-notifications').addEventListener('change', function() {
+            localStorage.setItem('emailNotifications', this.checked);
+        });
+        document.getElementById('push-notifications').addEventListener('change', function() {
+            localStorage.setItem('pushNotifications', this.checked);
+        });
+
+        // SHOW IMAGES
+        document.getElementById('show-images').checked = localStorage.getItem('showImages') !== 'false';
+        document.getElementById('show-images').addEventListener('change', function() {
+            localStorage.setItem('showImages', this.checked);
+        });
+
+        // LANGUAGE
+        const lang = localStorage.getItem('novelhub_language') || 'en';
+        document.getElementById('language').value = lang;
+        document.getElementById('language').addEventListener('change', function() {
+            localStorage.setItem('novelhub_language', this.value);
+        });
+
+        // SAVE CHANGES: redirect to home
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = "index.html";
+        });
+    });
+    </script>
+    <style>
+        :root {
+            --novel-font-size: 18px;
+        }
+        body, .novel-content, .main-section, .profile-section, .novel-description, .card, .settings-container {
+            font-size: var(--novel-font-size);
+        }
+    </style>
+</body>
+</html>

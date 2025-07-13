@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 300px; }
+  </style>
+</head>
+<body>
+  <h1>Sign Up</h1>
+  <input id="signup-email" type="email" placeholder="Email" />
+  <input id="signup-password" type="password" placeholder="Password" />
+  <button onclick="signUp()">Sign Up</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient(
+      'https://mbtvvibfisdntyeokpeb.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idHZ2aWJmaXNkbnR5ZW9rcGViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyOTA0MTIsImV4cCI6MjA2Nzg2NjQxMn0.C8VzQFbXXwfJmCyNaUdOsA-_L_WsgSWZBqk38XJXL2g'
+    );
+
+    async function signUp() {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          emailRedirectTo: 'https://selanyi.netlify.app/update-password.html'
+        }
+      });
+      if (error) alert(error.message);
+      else alert('Sign up successful! Check your email.');
+    }
+  </script>
+</body>
+</html>
