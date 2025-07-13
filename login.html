@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovelHub - Join</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="text/javascript" src="validation.js" defer></script>
+    <script type="module" src="/AUTH.js" defer></script>
+</head>
+<style>
+   @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap'); 
+   :root{
+    --accent-color: #41b3c7; 
+    --base-color: #f0f0f0;
+    --text-color: #000000;
+    --input-color: #ffffff;
+   }
+   * {
+    margin: 0;
+    padding: 0;
+   }
+
+   html{
+    font-family: Comfortaa, Roboto Condensed, sans-serif;
+    font-size: 12pt;
+    text-align: center;
+   }
+
+   body {
+    min-height: 100vh;
+    background-image : url('back.jpg');
+    background-size: cover;
+    background-position: right;
+    overflow: hidden;
+   }
+
+   .wrapper {
+    box-sizing: border-box;
+    background-color: var(--base-color);
+    height: 100vh;
+    width: max(40%, 600px);
+    padding: 10px;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
+   h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+   }
+   form {
+   width: min(400px, 100%);
+   margin-top: 20px;
+   margin-bottom: 50px;
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+   }
+   form > div {
+    width: 100%;
+    display: flex;
+   justify-content: center;
+   }
+   form label {
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    background-color: var(--accent-color);
+    fill: var(--input-color);
+    color: var(--input-color);
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+   }
+   form input {
+   box-sizing: border-box;
+   flex-grow: 1;
+   min-width: 0;
+   height: 50px;
+   padding: 1em;
+   font: inherit;
+   border-radius: 0 10px 10px 0;
+   border-left: none;
+    background-color: var(--input-color);
+    border: 2px solid var(--input-color);
+    transition: 150ms ease;
+
+   }
+   form input:hover {
+    border-color: var(--accent-color);
+   }
+   form input:focus {
+    outline: none;
+    border-color: var(--text-color);
+   
+   }
+   div:has(input:focus) > label{
+    background-color: var(--text-color);
+   }
+   form input::placeholder {
+    color: var(--text-color);
+    opacity: 0.6;
+   }
+   form button {
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    margin-top: 10px;
+    border: none;
+    border-radius: 10000px;
+    padding: .85em 4em ;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 150ms ease;
+   }
+   form button:hover {
+    background-color: var(--text-color);
+   }
+   form button:focus{
+    outline: none;
+    background-color: var(--text-color);
+   }
+   a{
+    text-decoration: none;
+    color: var(--accent-color );
+   }
+   a:hover {
+    text-decoration: underline;
+   }
+   img {
+    border-radius: 50%;
+    scale: 1.6;
+   }
+
+   form div.incorrect label {
+    background-color: red;
+   }
+   form div.incorrect input {
+    border-color: red;
+    box-shadow: red;
+   }
+    #errorMessage {
+     color: red;
+     font-weight: 600;
+     margin-top: 10px;
+    }
+    .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s ease;
+    }
+    .toggle-password:hover {
+    color: var(--accent-color);
+    }
+
+    .password-field {
+    position: relative;
+    }
+   @media(max-width:1100px){
+    .wrapper{
+        width: min(600px, 100%);
+        border-radius: 0;
+    }
+   }
+
+</style>
+    <body>
+        
+        <div class="wrapper">
+            <img src="logo.png"alt="NovelHub logo" height="50px" width="50px"><br>
+            <h1>Login</h1>
+            <p id="errorMessage"></p>
+            <form id="form">
+                <div>
+                    <label for="user-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
+                            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
+                        </svg>
+                    </label>
+                    <input type="text" id="user-input" name="user" placeholder="Username or Email" required>
+                </div>
+                
+                <div class="password-field">
+                    <label for="password-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+                    </label>
+                    <input type="password" id="password-input" name="password" placeholder="Password">
+                    <span class="toggle-password" onclick="togglePasswordVisibility('passwordInput', this)">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                
+                <button id="login-btn" type="submit">Login</button><a href="reset-password.html">Forgot password?</a>
+                <p>New here? <a href="join.html">Create an account</a></p>
+                
+            </form>
+        </div>
+        <script>
+function togglePasswordVisibility(inputId, iconSpan) {
+    const input = document.getElementById(inputId);
+    const icon = iconSpan.querySelector('i');
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+// Login form logic: detect email or username
+document.getElementById('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const userValue = document.getElementById('user-input').value.trim();
+    const passwordValue = document.getElementById('passwordInput').value;
+
+    // Simple email regex
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userValue);
+
+    if (isEmail) {
+        // Handle login with email
+        // Example: loginWithEmail(userValue, passwordValue);
+        console.log("Logging in with email:", userValue);
+    } else {
+        // Handle login with username
+        // Example: loginWithUsername(userValue, passwordValue);
+        console.log("Logging in with username:", userValue);
+    }
+
+    // Replace the above console.log with your actual login logic
+});
+</script>
+    </body>  
+</html>
